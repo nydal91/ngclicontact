@@ -1,3 +1,98 @@
-<h1>
-  {{title}}
-</h1>
+
+<div class="contact_wrapper">
+  <div *ngIf="messageSentSuccess" class="messageStatusSuccess">
+    <h3>Message sent successfully!</h3>
+  </div>
+  <div *ngIf="messageSentError" class="messageStatusError">
+    <h3>Failed to send message, please try again later!</h3>
+  </div>
+  <form *ngIf="!messageSentSuccess && !messageSentError" [formGroup]="emailForm" (submit)="onSubmit(emailForm)">
+      <div class="content">
+
+        <div class="field">
+          <label for="messageInput"><p>Message</p></label>
+          <textarea
+                    [class.success]="emailForm.controls['message'].valid"
+                    id="messageInput"
+                    type="text"
+                    placeholder="Description"
+                    [formControl]="emailForm.controls['message']"
+                    rows="6">
+          </textarea>
+        <div class="messageSuccess" *ngIf="emailForm.controls['message'].valid">
+          <img src="./checkmark.png">
+        </div>
+        <div *ngIf="emailForm.controls['message'].touched">
+          <div class="messageError" *ngIf="emailForm.controls['message'].hasError('minlength') || emailForm.controls['message'].hasError('required')">
+             Your message needs to be at least 10 characters long.
+          </div>
+       </div>
+     </div>
+
+     <div class="field">
+       <label for="emailInput"><p>Email</p></label>
+       <input
+                  [class.success]="emailForm.controls['email'].valid"
+                 id="emailInput"
+                 type="text"
+                 placeholder="Description"
+                 [formControl]="emailForm.controls['email']"
+                 rows="6">
+        <span *ngIf="emailForm.controls['email'].valid">
+           <img src="./checkmark.png">
+        </span>
+        <div *ngIf="emailForm.controls['email'].touched" >
+           <div class="formError" *ngIf=" emailForm.controls['email'].hasError('required')">
+             Enter your email.
+           </div>
+           <div class="formError" *ngIf="emailForm.controls['email'].hasError('invalidEmail')">
+            Invalid email.
+           </div>
+       </div>
+     </div>
+
+    <div class="field">
+      <label for="nameInput"><p>Name</p></label>
+      <input
+                [class.success]="emailForm.controls['name'].valid"
+                id="nameInput"
+                type="text"
+                placeholder="Description"
+                [formControl]="emailForm.controls['name']"
+                rows="6">
+      <span *ngIf="emailForm.controls['name'].valid">
+        <img src="./checkmark.png">
+      </span>
+      <div *ngIf="emailForm.controls['name'].touched" >
+        <div class="formError" *ngIf="emailForm.controls['name'].hasError('required')">
+          Enter your name.
+        </div>
+       </div>
+     </div>
+
+    <div class="field">
+      <label for="captchInput"><p>{{captchaA}} + {{captchaB}} = ?</p></label>
+      <input
+                [class.success]="emailForm.controls['captcha'].valid"
+                id="captchaInput"
+                type="text"
+                placeholder="Description"
+                [formControl]="emailForm.controls['captcha']"
+                rows="6">
+      <span *ngIf="emailForm.controls['captcha'].valid"> <img src="./checkmark.png"> </span>
+      <div *ngIf="emailForm.controls['captcha'].touched" >
+        <div class="formError" *ngIf="emailForm.controls['captcha'].hasError('invalidCaptcha')">
+          Wrong Answer.
+        </div>
+      </div>
+    </div>
+
+    <div class="buttonArea">
+          <button type="submit" [disabled]="!emailForm.valid">Submit</button>
+    </div>
+
+  </div>
+
+</form>
+
+</div>
